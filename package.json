@@ -1,0 +1,39 @@
+{
+  "name": "uws-api-server",
+  "version": "0.0.1",
+  "description": "A thin, async-friendly wrapper around uWebSockets.js",
+  "type": "module",
+  "main": "./lib/index.js",
+  "exports": "./lib/index.js",
+  "bin": {
+    "uws-api-server": "./lib/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "NODE_OPTIONS='--experimental-vm-modules' jest --forceExit --maxWorkers=1 --no-cache",
+    "coverage": "NODE_OPTIONS='--experimental-vm-modules' jest --coverage --forceExit --maxWorkers=1 --no-cache",
+    "lint": "eslint src/",
+    "format": "prettier --write .",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.51.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.25.1",
+    "@types/jest": "29.5.14",
+    "@types/node": "22.15.3",
+    "@typescript-eslint/eslint-plugin": "8.32.0",
+    "@typescript-eslint/parser": "8.32.0",
+    "eslint": "9.25.1",
+    "jest": "29.7.0",
+    "prettier": "3.5.3",
+    "ts-jest": "29.3.2",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.3"
+  }
+}
