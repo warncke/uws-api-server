@@ -32,11 +32,13 @@ When activated:
 
 6. Once the design is agreed, produce output on command (Mermaid diagram, Manim animation, full technical specification, etc.). For revision requests, follow guideline 7.
 
-7. **If the user issues a free‑form revision request** (e.g., "change X to Y", "update section Z", "add a new module", "rename all instances of…"), **do not** produce the full revised specification. Instead, treat the request as an implicit `revise technical paper` command:
+7. **If the user issues a free‑form revision request** (e.g., "change X to Y", "update section Z", "add a new module", "rename all instances of…"), **do not** produce the full revised specification. Instead, treat the request as an implicit `revise technical specification` command:
    - Analyse the current specification (or original system description, whichever is the active reference).
-   - Output a structured list of proposed revisions in the format defined under the `revise technical paper` command.
-   - End the response by asking whether to apply the revisions with `generate technical paper` or whether the user has additional changes.
-   - Only produce the full revised document when the user explicitly invokes `generate technical paper` (or gives a clear equivalent confirmation such as "apply these" or "yes, generate it").
+   - Output a structured list of revisions in the format defined under the `revise technical specification` command.
+   - End the response by asking whether to apply the revisions with `generate technical specification` or whether the user has additional changes.
+   - Only produce the full revised document when the user explicitly invokes `generate technical specification` (or gives a clear equivalent confirmation such as "apply these" or "yes, generate it").
+
+8. **Surface available commands** — After completing the initial summary (step 1) or starting the from-scratch analysis (step 2), conclude by listing every command from the `## Available Commands` section with its single-line description. This orients the user on what they can request next (diagrams, class specs, animations, testing plans, etc.).
 
 ---
 
@@ -151,7 +153,11 @@ The diagrams must use the exact class and method names defined in §2. The d3 an
 
 The generated specification must be saved directly to `technical-specification.md`, replacing the previous contents. The output must be self‑contained so that an external diff tool can compare it against the original.
 
-### `revise technical paper`
+**Revision application**: This command also applies accepted revisions to the existing specification. When invoked after `revise technical specification`, it applies only the specific, minimal changes listed in the accepted revisions — writing the result back to `technical-specification.md` without modifying any other content. If no revisions were accepted, it reports that no changes were needed.
+
+**This command must only be executed when explicitly requested by the user.** Free‑form revision requests must be processed through `revise technical specification` first, and the full document must not be emitted until the user confirms by typing `generate technical specification` or an equivalent explicit instruction.
+
+### `revise technical specification`
 
 Review the **file‑based technical specification** (`technical-specification.md`) against all subsequent design decisions, corrections, and feedback.  
 If `technical-specification.md` does not exist, use the original user message as the reference.  
@@ -171,11 +177,7 @@ Propose a structured list of revisions:
 
 Do not rewrite the whole paper—only propose specific, minimal changes.
 
-### `generate technical paper`
 
-Take the current `technical-specification.md` and apply all previously **accepted** revisions as minimal edits. Write the result back to `technical-specification.md`, making only the changes specified in the accepted revisions. Do not change any other content. The result should read like the original but with the corrections applied. If no revisions were accepted, state that.
-
-**This command must only be executed when explicitly requested by the user.** Free‑form revision requests (e.g., "change the name to…") must be processed through `revise technical paper` first, and the full document must not be emitted until the user confirms by typing `generate technical paper` or an equivalent explicit instruction.
 
 ---
 
@@ -231,7 +233,7 @@ Read `technical-specification.md`, output a high-level summary, then:
 **Proposed change**: → `function buildAuthMiddleware(providers: AuthProvider[]): Middleware {`
 **Reason**: Aligns with project naming conventions.
 
-Would you like me to apply these revisions with `generate technical paper`?"
+Would you like me to apply these revisions with `generate technical specification`?"
 
 **User**: "yes, apply them"
 
@@ -241,9 +243,9 @@ Would you like me to apply these revisions with `generate technical paper`?"
 
 ## Final Note
 
-When instructed via an explicit command (`generate sequence diagram`, `generate architecture diagram`, `generate class specification`, `generate manim animation`, `generate testing plan`, `generate technical specification`, `generate technical paper`), save the requested artifact to its designated file. Do not output the full artifact inline — output a confirmation message instead (e.g., "Saved architecture diagram to ## 3. System Architecture in technical-specification.md").
+When instructed via an explicit command (`generate sequence diagram`, `generate architecture diagram`, `generate class specification`, `generate manim animation`, `generate testing plan`, `generate technical specification`), save the requested artifact to its designated file. Do not output the full artifact inline — output a confirmation message instead (e.g., "Saved architecture diagram to ## 3. System Architecture in technical-specification.md").
 
-When responding to a free‑form revision request (e.g., "change X to Y"), output **only** the structured list of proposed revisions in the `revise technical paper` format, followed by a prompt asking whether to apply them. Do not apply any changes until `generate technical paper` or an explicit confirmation is received.
+When responding to a free‑form revision request (e.g., "change X to Y"), output **only** the structured list of proposed revisions in the `revise technical specification` format, followed by a prompt asking whether to apply them. Do not apply any changes until `generate technical specification` or an explicit confirmation is received.
 
 For the Manim animation, save as `animation.py` and include a brief comment at the top explaining how to run it.
 For the D3 animation, save as `d3-animation.html` and include a brief comment at the top referencing the sub‑module sequence diagram and architecture diagram.
