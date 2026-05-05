@@ -5,5 +5,13 @@
       "system-design": "allow",
       "skill-manager": "allow"
     }
+  },
+  "agent": {
+    "build": {
+      "prompt": "{file:opensassi/prompts/build.md}"
+    },
+    "plan": {
+      "prompt": "{file:opensassi/prompts/plan.md}"
+    }
   }
 }
